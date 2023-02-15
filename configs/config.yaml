@@ -1,0 +1,35 @@
+#网络设置
+Server:
+  RunMode: debug
+  HttpPort: 8000
+  ReadTimeout: 60
+  WriteTimeout: 60
+#应用设置
+App:
+  #分页设置
+  DefaultPageSize: 10
+  MaxPageSize: 100
+  #日志设置
+  LogSavePath: storage/logs
+  LogFileName: blog-service
+  LogFileExt: .log
+  #图片管理设置
+  UploadSavePath: storage/uploads
+  UploadServerUrl: http://127.0.0.1:8000/static
+  UploadImageMaxSize: 5  # MB
+  UploadImageAllowExts:
+    - .jpg
+    - .jpeg
+    - .png
+#数据库设置
+Database:
+  DBType: mysql
+  Username: root  # 填写你的数据库账号
+  Password: 1234  # 填写你的数据库密码
+  Host: 127.0.0.1:3306
+  DBName: blog_service
+  TablePrefix: blog_
+  Charset: utf8
+  ParseTime: True
+  MaxIdleConns: 10
+  MaxOpenConns: 30
