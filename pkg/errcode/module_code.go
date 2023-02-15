@@ -9,10 +9,14 @@ var (
 )
 
 var (
-	ErrorGetArticleListFail = NewError(30010001, "获取文章列表失败")
-	ErrorGetArticleFail = NewError(30010002, "获取文章失败")
-	ErrorCreateArticleFail  = NewError(30010003, "创建文章失败")
-	ErrorUpdateArticleFail  = NewError(30010004, "更新文章失败")
-	ErrorDeleteArticleFail  = NewError(30010005, "删除文章失败")
-	ErrorCountArticleFail   = NewError(30010006, "统计文章失败")
+	ErrorGetArticleListFail = NewError(20020001, "获取文章列表失败")
+	ErrorGetArticleFail = NewError(20020002, "获取文章失败")
+	ErrorCreateArticleFail  = NewError(20020003, "创建文章失败")
+	ErrorUpdateArticleFail  = NewError(20020004, "更新文章失败")
+	ErrorDeleteArticleFail  = NewError(20020005, "删除文章失败")
+	ErrorCountArticleFail   = NewError(20020006, "统计文章失败")
+)
+
+var (
+	ErrorUploadFileFail = NewError(20030001, "上传文件失败")
 )
