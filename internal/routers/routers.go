@@ -5,6 +5,7 @@ import (
 	_ "github.com/go-programming-tour-book/blog-service/docs"
 	"github.com/go-programming-tour-book/blog-service/global"
 	"github.com/go-programming-tour-book/blog-service/internal/middleware"
+	"github.com/go-programming-tour-book/blog-service/internal/routers/api"
 	v1 "github.com/go-programming-tour-book/blog-service/internal/routers/api/v1"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -16,6 +17,7 @@ func NewRouter() *gin.Engine{
 	r.Use(gin.Logger(),gin.Recovery())
 	r.Use(middleware.Translation())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	r.POST("/auth", api.GetAuth)
 
 	article := v1.NewArticle()
 	tag := v1.NewTag()
@@ -23,6 +25,7 @@ func NewRouter() *gin.Engine{
 	//Dir实现了http.FileSystem的Open,gin.Dir可设置了listdir为false
 	r.Static("/static", global.AppSetting.UploadSavePath)
 	apiv1 := r.Group("/api/v1")
+	apiv1.Use(middleware.JWT())
 	{
 		apiv1.POST("/tags", tag.Create)
 		apiv1.DELETE("/tags/:id", tag.Delete)
