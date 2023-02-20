@@ -51,19 +51,23 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
-	setting.ReadSection("Server", &global.ServerSetting)
+	err = setting.ReadSection("Server", &global.ServerSetting)
 	if err != nil {
 		return err
 	}
-	setting.ReadSection("App", &global.AppSetting)
+	err = setting.ReadSection("App", &global.AppSetting)
 	if err != nil {
 		return err
 	}
-	setting.ReadSection("Database", &global.DatabaseSetting)
+	err = setting.ReadSection("Database", &global.DatabaseSetting)
 	if err != nil {
 		return err
 	}
-	setting.ReadSection("JWT", &global.JWTSetting)
+	err = setting.ReadSection("JWT", &global.JWTSetting)
+	if err != nil {
+		return err
+	}
+	err = setting.ReadSection("Email", &global.EmailSetting)
 	if err != nil {
 		return err
 	}
@@ -71,6 +75,7 @@ func setupSetting() error {
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
 	global.JWTSetting.Expire *= time.Second
+	global.AppSetting.Timeout *= time.Second
 	return nil
 }
 
@@ -84,7 +89,7 @@ func setupDBEngine() error {
 }
 
 func setupLogger() error {
-	l, _ := lumberjack.NewRoller(global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt, 600*1024*1024, &lumberjack.Options{MaxAge: 10, LocalTime: true})
+	l, _ := lumberjack.NewRoller(global.AppSetting.LogSavePath+"/"+global.AppSetting.LogFileName+global.AppSetting.LogFileExt, 600*1024*1024, &lumberjack.Options{MaxAge: 10, LocalTime: true})
 	global.Logger = logger.NewLogger(l, "", log.LstdFlags).WithCaller(2)
 	return nil
 }

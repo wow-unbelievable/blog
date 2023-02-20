@@ -8,14 +8,14 @@ import (
 )
 
 func JWT() gin.HandlerFunc {
-	return func(context *gin.Context) {
+	return func(c *gin.Context) {
 		var token string
 		var ecode = errcode.Success
 
-		if s, exist := context.GetQuery("token"); exist {
+		if s, exist := c.GetQuery("token"); exist {
 			token = s
 		} else {
-			token = context.GetHeader("token")
+			token = c.GetHeader("token")
 		}
 		if token == "" {
 			ecode = errcode.InvalidParams
@@ -32,12 +32,12 @@ func JWT() gin.HandlerFunc {
 		}
 
 		if ecode != errcode.Success {
-			response := app.NewResponse(context)
+			response := app.NewResponse(c)
 			response.ToErrorResponse(ecode)
-			context.Abort()
+			c.Abort()
 			return
 		}
 
-		context.Next()
+		c.Next()
 	}
 }

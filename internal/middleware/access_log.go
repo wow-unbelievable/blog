@@ -21,21 +21,21 @@ func (w AccessLogWriter) Write(p []byte) (int, error) {
 }
 
 func AccessLog() gin.HandlerFunc {
-	return func(context *gin.Context) {
-		bodyWriter := &AccessLogWriter{ResponseWriter: context.Writer, body: bytes.NewBufferString("")}
-		context.Writer = bodyWriter
+	return func(c *gin.Context) {
+		bodyWriter := &AccessLogWriter{ResponseWriter: c.Writer, body: bytes.NewBufferString("")}
+		c.Writer = bodyWriter
 
 		beginTime := time.Now().Unix()
-		context.Next()
+		c.Next()
 		endTime := time.Now().Unix()
 
 		fields := logger.Fields{
-			"request":  context.Request.PostForm.Encode(),
+			"request":  c.Request.PostForm.Encode(),
 			"response": bodyWriter.body.String(),
 		}
 		//fields未打印
 		global.Logger.WithFields(fields).Infof("access log: method: %s, status_code: %d, begin_time: %d, end_time: %d",
-			context.Request.Method,
+			c.Request.Method,
 			bodyWriter.Status(),
 			beginTime,
 			endTime)

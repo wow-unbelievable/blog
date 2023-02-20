@@ -23,7 +23,7 @@ const (
 	LevelPanic
 )
 
-func (level Level) String() string{
+func (level Level) String() string {
 	switch level {
 	case LevelDebug:
 		return "debug"
@@ -104,7 +104,7 @@ func (l *Logger) WithCallersFrames() *Logger {
 }
 
 func (l *Logger) JSONFormat(level Level, message string) map[string]interface{} {
-	date := make(Fields, len(l.fields) + 4)
+	date := make(Fields, len(l.fields)+4)
 	date["level"] = level.String()
 	date["time"] = time.Now().Local().UnixNano()
 	date["message"] = message
@@ -178,7 +178,10 @@ func (l *Logger) Fatalf(format string, v ...interface{}) {
 	l.Output(LevelFatal, fmt.Sprintf(format, v...))
 }
 
+func (l *Logger) Panic(v ...interface{}) {
+	l.Output(LevelPanic, fmt.Sprint(v...))
+}
 
-
-
-
+func (l *Logger) Panicf(format string, v ...interface{}) {
+	l.Output(LevelPanic, fmt.Sprintf(format, v...))
+}
