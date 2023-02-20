@@ -11,11 +11,11 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func NewRouter() *gin.Engine{
+func NewRouter() *gin.Engine {
 	r := gin.New()
 	url := ginSwagger.URL("http://127.0.0.1:8000/swagger/doc.json")
-	r.Use(gin.Logger(),gin.Recovery())
-	r.Use(middleware.Translation())
+	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(middleware.Translation(), middleware.AccessLog(), middleware.Recovery())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	r.POST("/auth", api.GetAuth)
 
@@ -36,7 +36,7 @@ func NewRouter() *gin.Engine{
 		apiv1.POST("/articles", article.Create)
 		apiv1.DELETE("/articles/:id", article.Delete)
 		apiv1.PUT("/articles/:id", article.Update)
-		apiv1.PATCH("/articles/:id/state",article.Update)
+		apiv1.PATCH("/articles/:id/state", article.Update)
 		apiv1.GET("/articles/:id", article.Get)
 		apiv1.GET("/articles", article.List)
 
