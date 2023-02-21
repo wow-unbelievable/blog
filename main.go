@@ -7,6 +7,7 @@ import (
 	"github.com/go-programming-tour-book/blog-service/internal/routers"
 	"github.com/go-programming-tour-book/blog-service/pkg/logger"
 	"github.com/go-programming-tour-book/blog-service/pkg/setting"
+	"github.com/go-programming-tour-book/blog-service/pkg/tracer"
 	"github.com/natefinch/lumberjack/v3"
 	"log"
 	"net/http"
@@ -25,6 +26,10 @@ func init() {
 	err = setupLogger()
 	if err != nil {
 		log.Fatalf("init.setupLogger err: %v", err)
+	}
+	err = setupTracer()
+	if err != nil {
+		log.Fatalf("init.setupTracer err: %v", err)
 	}
 }
 
@@ -71,6 +76,10 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
+	err = setting.ReadSection("Tracer", &global.TracerSetting)
+	if err != nil {
+		return err
+	}
 
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
@@ -91,5 +100,18 @@ func setupDBEngine() error {
 func setupLogger() error {
 	l, _ := lumberjack.NewRoller(global.AppSetting.LogSavePath+"/"+global.AppSetting.LogFileName+global.AppSetting.LogFileExt, 600*1024*1024, &lumberjack.Options{MaxAge: 10, LocalTime: true})
 	global.Logger = logger.NewLogger(l, "", log.LstdFlags).WithCaller(2)
+	return nil
+}
+
+func setupTracer() error {
+
+	trace, _, err := tracer.NewJaegerTracer(
+		global.TracerSetting.ServiceName,
+		global.TracerSetting.AgentUrl,
+	)
+	if err != nil {
+		return err
+	}
+	global.Tracer = trace
 	return nil
 }

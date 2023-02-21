@@ -12,4 +12,5 @@ var (
 	Logger          *logger.Logger
 	JWTSetting      *setting.JWTSettings
 	EmailSetting    *setting.EmailSettingS
+	TracerSetting   *setting.TraceSettingS
 )

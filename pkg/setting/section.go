@@ -51,6 +51,11 @@ type EmailSettingS struct {
 	To       []string
 }
 
+type TraceSettingS struct {
+	ServiceName string
+	AgentUrl    string
+}
+
 func (s *Setting) ReadSection(k string, v interface{}) error {
 	err := s.vp.UnmarshalKey(k, v)
 	return err
