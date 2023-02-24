@@ -1,18 +1,18 @@
 package model
 
 import (
-	"github.com/go-programming-tour-book/blog-service/pkg/app"
+	"github.com/wow-unbelievable/blog/pkg/app"
 	"gorm.io/gorm"
 )
 
 type Tag struct {
 	*Model
-	Name   string `json:"name"`
-	State  uint8 `json:"state"`
+	Name  string `json:"name"`
+	State uint8  `json:"state"`
 }
 
 type TagSwagger struct {
-	List []*Tag
+	List  []*Tag
 	Pager *app.Pager
 }
 
@@ -37,7 +37,7 @@ func (t Tag) List(db *gorm.DB, pageOffset, pageSize int) ([]*Tag, error) {
 	var tags []*Tag
 	var err error
 	if pageOffset >= 0 && pageSize > 0 {
-			db = db.Offset(pageOffset).Limit(pageSize)
+		db = db.Offset(pageOffset).Limit(pageSize)
 	}
 	if t.Name != "" {
 		db = db.Where("name = ?", t.Name)
@@ -54,7 +54,7 @@ func (t Tag) Create(db *gorm.DB) error {
 	return db.Create(&t).Error
 }
 
-func (t Tag) Update(db *gorm.DB, values interface{} ) error {
+func (t Tag) Update(db *gorm.DB, values interface{}) error {
 	if err := db.Model(t).Where("id = ? AND is_del = ?", t.ID, 0).Updates(values).Error; err != nil {
 		return err
 	}

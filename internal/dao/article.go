@@ -1,11 +1,11 @@
 package dao
 
 import (
-	"github.com/go-programming-tour-book/blog-service/internal/model"
-	"github.com/go-programming-tour-book/blog-service/pkg/app"
+	"github.com/wow-unbelievable/blog/internal/model"
+	"github.com/wow-unbelievable/blog/pkg/app"
 )
 
-func (d *Dao) CountArticle(title string, modifiedBy string,state uint8) (int64, error) {
+func (d *Dao) CountArticle(title string, modifiedBy string, state uint8) (int64, error) {
 	article := model.Article{
 		Title: title,
 		State: state,
@@ -32,12 +32,12 @@ func (d *Dao) GetArticle(id uint32) (*model.Article, error) {
 
 func (d *Dao) CreateArticle(title string, state uint8, desc string, content string, coverImageUrl string, createdBy string) error {
 	article := model.Article{
-		Title: title,
-		State: state,
-		Desc: desc,
-		Content: content,
+		Title:         title,
+		State:         state,
+		Desc:          desc,
+		Content:       content,
 		CoverImageUrl: coverImageUrl,
-		Model: &model.Model{CreatedBy: createdBy},
+		Model:         &model.Model{CreatedBy: createdBy},
 	}
 	return article.Create(d.engine)
 }
@@ -47,22 +47,21 @@ func (d *Dao) UpdateArticle(id uint32, title string, state uint8, desc string, c
 		Model: &model.Model{ID: id},
 	}
 
-
-	values := map[string]interface{} {
-		"state": state,
+	values := map[string]interface{}{
+		"state":       state,
 		"modified_by": modifiedBy,
-		"content": content,
+		"content":     content,
 	}
 
-	if title != ""{
+	if title != "" {
 		values["title"] = title
 	}
 
-	if desc != ""{
+	if desc != "" {
 		values["desc"] = desc
 	}
 
-	if coverImageUrl != ""{
+	if coverImageUrl != "" {
 		values["cover_image_url"] = coverImageUrl
 	}
 
@@ -73,4 +72,3 @@ func (d *Dao) DeleteArticle(id uint32) error {
 	article := model.Article{Model: &model.Model{ID: id}}
 	return article.Delete(d.engine)
 }
-

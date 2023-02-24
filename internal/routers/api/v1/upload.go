@@ -2,12 +2,12 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/go-programming-tour-book/blog-service/global"
-	"github.com/go-programming-tour-book/blog-service/internal/service"
-	"github.com/go-programming-tour-book/blog-service/pkg/app"
-	"github.com/go-programming-tour-book/blog-service/pkg/convert"
-	"github.com/go-programming-tour-book/blog-service/pkg/errcode"
-	"github.com/go-programming-tour-book/blog-service/pkg/upload"
+	"github.com/wow-unbelievable/blog/global"
+	"github.com/wow-unbelievable/blog/internal/service"
+	"github.com/wow-unbelievable/blog/pkg/app"
+	"github.com/wow-unbelievable/blog/pkg/convert"
+	"github.com/wow-unbelievable/blog/pkg/errcode"
+	"github.com/wow-unbelievable/blog/pkg/upload"
 )
 
 type Upload struct{}

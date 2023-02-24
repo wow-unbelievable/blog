@@ -3,10 +3,10 @@ package middleware
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"github.com/go-programming-tour-book/blog-service/global"
 	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
 	"github.com/uber/jaeger-client-go"
+	"github.com/wow-unbelievable/blog/global"
 )
 
 func Tracing() gin.HandlerFunc {

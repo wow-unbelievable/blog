@@ -3,10 +3,10 @@ package middleware
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/go-programming-tour-book/blog-service/global"
-	"github.com/go-programming-tour-book/blog-service/pkg/app"
-	"github.com/go-programming-tour-book/blog-service/pkg/email"
-	"github.com/go-programming-tour-book/blog-service/pkg/errcode"
+	"github.com/wow-unbelievable/blog/global"
+	"github.com/wow-unbelievable/blog/pkg/app"
+	"github.com/wow-unbelievable/blog/pkg/email"
+	"github.com/wow-unbelievable/blog/pkg/errcode"
 	"time"
 )
 

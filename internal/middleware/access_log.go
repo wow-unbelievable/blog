@@ -3,8 +3,8 @@ package middleware
 import (
 	"bytes"
 	"github.com/gin-gonic/gin"
-	"github.com/go-programming-tour-book/blog-service/global"
-	"github.com/go-programming-tour-book/blog-service/pkg/logger"
+	"github.com/wow-unbelievable/blog/global"
+	"github.com/wow-unbelievable/blog/pkg/logger"
 	"time"
 )
 

@@ -2,18 +2,18 @@ package service
 
 import (
 	"errors"
-	"github.com/go-programming-tour-book/blog-service/global"
-	"github.com/go-programming-tour-book/blog-service/pkg/upload"
+	"github.com/wow-unbelievable/blog/global"
+	"github.com/wow-unbelievable/blog/pkg/upload"
 	"mime/multipart"
 	"os"
 )
 
 type FileInfo struct {
-	Name string
+	Name      string
 	AccessUrl string
 }
 
-func (svc *Service) UploadFile(fileType upload.FileType, file multipart.File,fileHeader *multipart.FileHeader) (*FileInfo, error) {
+func (svc *Service) UploadFile(fileType upload.FileType, file multipart.File, fileHeader *multipart.FileHeader) (*FileInfo, error) {
 	fileName := upload.GetFileName(fileHeader.Filename)
 	if !upload.CheckContainExt(fileType, fileName) {
 		return nil, errors.New("file suffix is not supported")

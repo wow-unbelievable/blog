@@ -1,19 +1,19 @@
 package service
 
 import (
-	"github.com/go-programming-tour-book/blog-service/internal/model"
-	"github.com/go-programming-tour-book/blog-service/pkg/app"
+	"github.com/wow-unbelievable/blog/internal/model"
+	"github.com/wow-unbelievable/blog/pkg/app"
 )
 
 type CountArticleRequest struct {
-	Title string `form:"title" binding:"max=100"`
-	State uint8 `form:"state,default=1" binding:"oneof=0 1"`
+	Title      string `form:"title" binding:"max=100"`
+	State      uint8  `form:"state,default=1" binding:"oneof=0 1"`
 	ModifiedBy string `form:"modified_by"`
 }
 
 type ArticleListRequest struct {
-	Title string `form:"title" binding:"max=100"`
-	State uint8 `form:"state,default=1" binding:"oneof=0 1"`
+	Title     string `form:"title" binding:"max=100"`
+	State     uint8  `form:"state,default=1" binding:"oneof=0 1"`
 	CreatedBy string `form:"create_by" binding:"max=100"`
 }
 
@@ -22,21 +22,21 @@ type GetArticleRequest struct {
 }
 
 type CreateArticleRequest struct {
-	Title string `form:"title" binding:"required,min=3,max=100"`
-	CreatedBy string `form:"create_by" binding:"required,min=3,max=100"`
-	State uint8 `form:"state,default=1" binding:"oneof=0 1"`
-	Desc string `form:"desc" binding:"max=1000"`
-	Content string `form:"content" binding:"required"`
+	Title         string `form:"title" binding:"required,min=3,max=100"`
+	CreatedBy     string `form:"create_by" binding:"required,min=3,max=100"`
+	State         uint8  `form:"state,default=1" binding:"oneof=0 1"`
+	Desc          string `form:"desc" binding:"max=1000"`
+	Content       string `form:"content" binding:"required"`
 	CoverImageUrl string `form:"coverimageurl" binding:"max=100"`
 }
 
 type UpdateArticleRequest struct {
-	ID uint32 `form:"id" binding:"required,gte=1"`
-	Title string `form:"title" binding:"min=0,max=100"`
-	State uint8 `form:"state" binding:"oneof=0 1"`
-	ModifiedBy string `form:"modified_by" binding:"required,min=3,max=100"`
-	Desc string `form:"desc" binding:"max=1000"`
-	Content string `form:"content" binding:"required"`
+	ID            uint32 `form:"id" binding:"required,gte=1"`
+	Title         string `form:"title" binding:"min=0,max=100"`
+	State         uint8  `form:"state" binding:"oneof=0 1"`
+	ModifiedBy    string `form:"modified_by" binding:"required,min=3,max=100"`
+	Desc          string `form:"desc" binding:"max=1000"`
+	Content       string `form:"content" binding:"required"`
 	CoverImageUrl string `form:"cover_image_url" binding:"max=100"`
 }
 
@@ -45,12 +45,12 @@ type DeleteArticleRequest struct {
 }
 
 type AddTagRequest struct {
-	TagID uint32 `form:"tag_id" binding:"required,gte=1"`
+	TagID     uint32 `form:"tag_id" binding:"required,gte=1"`
 	ArticleID uint32 `form:"article_id" binding:"required,gte=1"`
 }
 
 type DeleteTagFromArticleRequest struct {
-	TagID uint32 `form:"tag_id" binding:"required,gte=1"`
+	TagID     uint32 `form:"tag_id" binding:"required,gte=1"`
 	ArticleID uint32 `form:"article_id" binding:"required,gte=1"`
 }
 
@@ -78,7 +78,6 @@ func (svc *Service) DeleteArticle(param *DeleteArticleRequest) error {
 	return svc.dao.DeleteArticle(param.ID)
 }
 
-func (svc *Service) AddTag(param *AddTagRequest)  {
+func (svc *Service) AddTag(param *AddTagRequest) {
 	return
 }
-

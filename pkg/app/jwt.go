@@ -1,15 +1,15 @@
 package app
 
 import (
-	"github.com/go-programming-tour-book/blog-service/global"
-	"github.com/go-programming-tour-book/blog-service/pkg/util"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/wow-unbelievable/blog/global"
+	"github.com/wow-unbelievable/blog/pkg/util"
 	"time"
 )
 
 // Claims 使用jwt.RegisteredClaims代替jwt.StandardClaims
 type Claims struct {
-	AppKey string `json:"app_key"`
+	AppKey    string `json:"app_key"`
 	AppSecret string `json:"app_secret"`
 	jwt.RegisteredClaims
 }
@@ -21,14 +21,14 @@ func GetJWTSecret() []byte {
 func GenerateToken(appKey, appSecret string) (string, error) {
 	nowTime := time.Now()
 	expireTime := jwt.NumericDate{
-		 Time: nowTime.Add(global.JWTSetting.Expire),
+		Time: nowTime.Add(global.JWTSetting.Expire),
 	}
 	claims := Claims{
-		AppKey: util.EncodeMD5(appKey),
+		AppKey:    util.EncodeMD5(appKey),
 		AppSecret: util.EncodeMD5(appSecret),
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: &expireTime,
-			Issuer: global.JWTSetting.Issuer,
+			Issuer:    global.JWTSetting.Issuer,
 		},
 	}
 

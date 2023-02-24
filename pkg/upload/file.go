@@ -1,8 +1,8 @@
 package upload
 
 import (
-	"github.com/go-programming-tour-book/blog-service/global"
-	"github.com/go-programming-tour-book/blog-service/pkg/util"
+	"github.com/wow-unbelievable/blog/global"
+	"github.com/wow-unbelievable/blog/pkg/util"
 	"io"
 	"mime/multipart"
 	"os"
@@ -39,7 +39,7 @@ func CheckSavePath(dst string) bool {
 }
 
 // CheckContainExt 检查文件后缀名是否允许/**/
-func CheckContainExt(t FileType, name string) bool{
+func CheckContainExt(t FileType, name string) bool {
 	ext := GetFileExt(name)
 	ext = strings.ToUpper(ext)
 	switch t {
@@ -50,7 +50,7 @@ func CheckContainExt(t FileType, name string) bool{
 			}
 		}
 
-		}
+	}
 	return false
 
 }
@@ -58,7 +58,7 @@ func CheckContainExt(t FileType, name string) bool{
 func CheckMaxSize(t FileType, f *multipart.FileHeader) bool {
 	switch t {
 	case TypeImage:
-		if f.Size >= global.AppSetting.UploadImageMaxSize << 20 {
+		if f.Size >= global.AppSetting.UploadImageMaxSize<<20 {
 			return true
 		}
 

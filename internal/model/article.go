@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/go-programming-tour-book/blog-service/pkg/app"
+	"github.com/wow-unbelievable/blog/pkg/app"
 	"gorm.io/gorm"
 )
 
@@ -15,11 +15,11 @@ type Article struct {
 }
 
 type ArticleSwagger struct {
-	List []*Article
+	List  []*Article
 	Pager *app.Pager
 }
 
-func (a Article) TableName() string{
+func (a Article) TableName() string {
 	return "blog_article"
 }
 
@@ -33,7 +33,7 @@ func (a Article) Count(db *gorm.DB) (int64, error) {
 		db.Where("modified_by = ?", a.ModifiedBy)
 	}
 	if err := db.Model(&a).Where("is_del = ?", 0).Count(&count).Error; err != nil {
-		return 0,err
+		return 0, err
 	}
 	return count, nil
 }
@@ -54,7 +54,7 @@ func (a Article) List(db *gorm.DB, pageOffset, pageSize int) ([]*Article, error)
 	return articleList, nil
 }
 
-func (a  Article) Get(db *gorm.DB) (*Article, error) {
+func (a Article) Get(db *gorm.DB) (*Article, error) {
 	if err := db.Model(&a).Where("id = ? and is_del = ?", a.ID, 0).Find(&a).Error; err != nil {
 		return nil, err
 	}
@@ -75,4 +75,3 @@ func (a Article) Update(db *gorm.DB, values interface{}) error {
 func (a Article) Delete(db *gorm.DB) error {
 	return db.Where("id = ? AND is_del = ?", a.ID, 0).Delete(&a).Error
 }
-

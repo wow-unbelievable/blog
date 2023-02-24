@@ -2,7 +2,7 @@ package model
 
 import (
 	"fmt"
-	"github.com/go-programming-tour-book/blog-service/pkg/setting"
+	"github.com/wow-unbelievable/blog/pkg/setting"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/plugin/soft_delete"

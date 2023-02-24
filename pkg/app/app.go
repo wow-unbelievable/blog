@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/go-programming-tour-book/blog-service/pkg/errcode"
+	"github.com/wow-unbelievable/blog/pkg/errcode"
 	"net/http"
 )
 
@@ -11,8 +11,8 @@ type Response struct {
 }
 
 type Pager struct {
-	Page int `json:"page"`
-	PageSize int `json:"page_size"`
+	Page      int   `json:"page"`
+	PageSize  int   `json:"page_size"`
 	TotalRows int64 `json:"total_rows"`
 }
 
@@ -31,8 +31,8 @@ func (r *Response) ToResponseList(list interface{}, totalRows int64) {
 	r.Ctx.JSON(http.StatusOK, gin.H{
 		"list": list,
 		"pager": Pager{
-			Page: GetPage(r.Ctx),
-			PageSize: GetPageSize(r.Ctx),
+			Page:      GetPage(r.Ctx),
+			PageSize:  GetPageSize(r.Ctx),
 			TotalRows: totalRows,
 		},
 	})

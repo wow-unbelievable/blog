@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"github.com/go-programming-tour-book/blog-service/internal/model"
-	"github.com/go-programming-tour-book/blog-service/pkg/app"
+	"github.com/wow-unbelievable/blog/internal/model"
+	"github.com/wow-unbelievable/blog/pkg/app"
 )
 
 func (d *Dao) CountTag(name string, state uint8) (int64, error) {

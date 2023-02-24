@@ -1,4 +1,4 @@
-module github.com/go-programming-tour-book/blog-service
+module github.com/wow-unbelievable/blog
 
 go 1.19
 
