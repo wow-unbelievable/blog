@@ -47,7 +47,6 @@ func main() {
 		WriteTimeout:   global.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
-	global.Logger.Info("blog will run")
 	s.ListenAndServe()
 }
 

@@ -23,13 +23,14 @@ var methodLimiters = limiter.NewMethodLimiter().AddBuckets(limiter.LimiterBucket
 func NewRouter() *gin.Engine {
 	r := gin.New()
 	if global.ServerSetting.RunMode == "debug" {
-		r.Use(gin.Logger())
+		r.Use(gin.Logger(), middleware.AccessLog())
 		r.Use(gin.Recovery())
 	} else {
 		r.Use(middleware.AccessLog())
 		r.Use(middleware.Recovery())
 	}
 
+	r.Use(middleware.Tracing())
 	r.Use(middleware.RateLimiter(methodLimiters.(limiter.LimiterInterface)))
 	r.Use(middleware.ContextTimeout(global.AppSetting.Timeout))
 	r.Use(middleware.Translation())

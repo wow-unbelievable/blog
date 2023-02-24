@@ -18,16 +18,16 @@ func NewArticle() Article {
 func (a Article) Get(c *gin.Context) {
 	param := service.GetArticleRequest{ID: convert.StrTo(c.Param("id")).MustUInt32()}
 	response := app.NewResponse(c)
-	valid, errs := app.BindAndValid(c, &param);
+	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
 	svc := service.New(c.Request.Context())
 	article, err := svc.GetArticle(&param)
 	if err != nil {
-		global.Logger.Errorf("svc.GetArticle err: %v", err)
+		global.Logger.Errorf(c, "svc.GetArticle err: %v", err)
 		response.ToErrorResponse(errcode.ErrorGetArticleFail)
 		return
 	}
@@ -40,7 +40,7 @@ func (a Article) List(c *gin.Context) {
 	valid, errs := app.BindAndValid(c, &param)
 
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -50,14 +50,14 @@ func (a Article) List(c *gin.Context) {
 	totalRows, err := svc.CountArticle(&service.CountArticleRequest{Title: param.Title, State: param.State})
 
 	if err != nil {
-		global.Logger.Errorf("svc.CountArticle err: %v", err)
+		global.Logger.Errorf(c, "svc.CountArticle err: %v", err)
 		response.ToErrorResponse(errcode.ErrorCountArticleFail)
 		return
 	}
 
 	articles, err := svc.ListArticle(&param, &pager)
 	if err != nil {
-		global.Logger.Errorf("svc.ListArticle err: %v", err)
+		global.Logger.Errorf(c, "svc.ListArticle err: %v", err)
 		response.ToErrorResponse(errcode.ErrorGetArticleListFail)
 		return
 	}
@@ -71,7 +71,7 @@ func (a Article) Create(c *gin.Context) {
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -80,7 +80,7 @@ func (a Article) Create(c *gin.Context) {
 	err := svc.CreateArticle(&param)
 
 	if err != nil {
-		global.Logger.Errorf("svc.CreateArticle err: %v", errs)
+		global.Logger.Errorf(c, "svc.CreateArticle err: %v", errs)
 		response.ToErrorResponse(errcode.ErrorCreateArticleFail)
 		return
 	}
@@ -93,7 +93,7 @@ func (a Article) Update(c *gin.Context) {
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -102,7 +102,7 @@ func (a Article) Update(c *gin.Context) {
 	err := svc.UpdateArticle(&param)
 
 	if err != nil {
-		global.Logger.Errorf("svc.UpdateArticle err: %v", errs)
+		global.Logger.Errorf(c, "svc.UpdateArticle err: %v", errs)
 		response.ToErrorResponse(errcode.ErrorUpdateArticleFail)
 		return
 	}
@@ -115,7 +115,7 @@ func (a Article) Delete(c *gin.Context) {
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -124,7 +124,7 @@ func (a Article) Delete(c *gin.Context) {
 	err := svc.DeleteArticle(&param)
 
 	if err != nil {
-		global.Logger.Errorf("svc.DeleteArticle err: %v", errs)
+		global.Logger.Errorf(c, "svc.DeleteArticle err: %v", errs)
 		response.ToErrorResponse(errcode.ErrorDeleteArticleFail)
 		return
 	}
