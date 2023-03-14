@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"flag"
 	"github.com/gin-gonic/gin"
 	"github.com/natefinch/lumberjack/v3"
 	"github.com/wow-unbelievable/blog/global"
@@ -11,11 +13,25 @@ import (
 	"github.com/wow-unbelievable/blog/pkg/tracer"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"strings"
+	"syscall"
 	"time"
 )
 
+var (
+	port    string
+	runMode string
+	config  string
+)
+
 func init() {
-	err := setupSetting()
+	err := setupFlag()
+	if err != nil {
+		log.Fatalf("init.setupFlag err: %v", err)
+	}
+	err = setupSetting()
 	if err != nil {
 		log.Fatalf("init.setupSetting err: %v", err)
 	}
@@ -47,13 +63,39 @@ func main() {
 		WriteTimeout:   global.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
-	s.ListenAndServe()
+	go func() {
+		err := s.ListenAndServe()
+		if err != nil && err != http.ErrServerClosed {
+			log.Fatalf("s.ListenAndServe err %v", err)
+		}
+	}()
+
+	//创建一个系统信号通道,缓存为1,防止阻塞
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	_ = <-quit
+	log.Println("The Server will down")
+
+	//超时控制
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := s.Shutdown(ctx); err != nil {
+		log.Fatalf("Forced Down:", err)
+	}
+
+	log.Println("Server exiting")
 }
 
 func setupSetting() error {
-	setting, err := setting.NewSetting()
+	setting, err := setting.NewSetting(strings.Split(config, ",")...)
 	if err != nil {
 		return err
+	}
+	if port != "" {
+		global.ServerSetting.HttpPort = port
+	}
+	if runMode != "" {
+		global.ServerSetting.RunMode = runMode
 	}
 	err = setting.ReadSection("Server", &global.ServerSetting)
 	if err != nil {
@@ -112,5 +154,14 @@ func setupTracer() error {
 		return err
 	}
 	global.Tracer = trace
+	return nil
+}
+
+func setupFlag() error {
+	flag.StringVar(&port, "port", "", "启动端口")
+	flag.StringVar(&runMode, "mode", "", "启动模式")
+	flag.StringVar(&config, "config", "configs/", "指定配置文件")
+	flag.Parse()
+
 	return nil
 }
